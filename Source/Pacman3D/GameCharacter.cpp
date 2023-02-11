@@ -3,11 +3,19 @@
 
 #include "GameCharacter.h"
 
+
 // Sets default values
 AGameCharacter::AGameCharacter()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Character Root"));
+
+	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GameCharacter Mesh"));
+
+	SetRootComponent(Root);
+	Mesh->SetupAttachment(Root);
 
 }
 
