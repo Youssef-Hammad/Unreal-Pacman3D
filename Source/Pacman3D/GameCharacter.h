@@ -37,4 +37,6 @@ private:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
 	float fSpeed = 200.f;
+
+	void MoveForward(float DeltaTime);
 };

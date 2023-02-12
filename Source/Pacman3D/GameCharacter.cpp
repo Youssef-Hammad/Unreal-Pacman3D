@@ -31,10 +31,7 @@ void AGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FVector DeltaLocation(0.f);
-
-	DeltaLocation.X = DeltaTime * fSpeed;
-	AddActorLocalOffset(DeltaLocation, true);
+	MoveForward(DeltaTime);
 
 }
 
@@ -43,5 +40,13 @@ void AGameCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AGameCharacter::MoveForward(float DeltaTime)
+{
+	FVector DeltaLocation(0.f);
+
+	DeltaLocation.X = DeltaTime * fSpeed;
+	AddActorLocalOffset(DeltaLocation, true);
 }
 
