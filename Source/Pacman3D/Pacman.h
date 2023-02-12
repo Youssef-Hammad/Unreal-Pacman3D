@@ -35,4 +35,21 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
+	float fDeltaTimeRotationConstant = 80.f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
+	float fRotationSpeed = 10.f;
+
+	void TurnRight();
+	void TurnLeft();
+
+	void TurnRightLoop(float DeltaTime);
+	void TurnLeftLoop(float DeltaTime);
+
+	bool bTurnRight=false;
+	bool bTurnLeft = false;
+
+	FRotator TargetRotation;
 };
