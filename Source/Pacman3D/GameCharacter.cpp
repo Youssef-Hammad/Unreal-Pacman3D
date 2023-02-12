@@ -2,6 +2,7 @@
 
 
 #include "GameCharacter.h"
+#include <Components/CapsuleComponent.h>
 
 
 // Sets default values
@@ -9,13 +10,12 @@ AGameCharacter::AGameCharacter()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Character Root"));
-
+	
+	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("GameCharacter Capsule"));
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("GameCharacter Mesh"));
 
-	SetRootComponent(Root);
-	Mesh->SetupAttachment(Root);
+	RootComponent = CapsuleComp;
+	Mesh->SetupAttachment(CapsuleComp);
 
 }
 
@@ -30,6 +30,11 @@ void AGameCharacter::BeginPlay()
 void AGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	FVector DeltaLocation(0.f);
+
+	DeltaLocation.X = DeltaTime * fSpeed;
+	AddActorLocalOffset(DeltaLocation, true);
 
 }
 

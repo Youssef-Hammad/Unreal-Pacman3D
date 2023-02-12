@@ -29,7 +29,11 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	void MoveForward();
-	void MoveRight();
-	
+	void Turn(float Value);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
+	class UCameraComponent* CameraComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
+	class USpringArmComponent* SpringArmComponent;
 };

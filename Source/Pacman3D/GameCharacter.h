@@ -27,10 +27,14 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
-	UPROPERTY(VisibleAnywhere)
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
+	class UCapsuleComponent* CapsuleComp;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* Mesh;
 
-	UPROPERTY(VisibleAnywhere)
-	USceneComponent* Root;
-
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
+	float fSpeed = 200.f;
 };
