@@ -39,4 +39,21 @@ protected:
 	float fSpeed = 200.f;
 
 	void MoveForward(float DeltaTime);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game Character Variables")
+		float fDeltaTimeRotationConstant = 80.f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game Character Variables")
+		float fRotationSpeed = 10.f;
+
+	void TurnRight();
+	void TurnLeft();
+
+	void TurnRightLoop(float DeltaTime);
+	void TurnLeftLoop(float DeltaTime);
+
+	bool bTurnRight = false;
+	bool bTurnLeft = false;
+
+	FRotator TargetRotation;
 };
