@@ -12,10 +12,13 @@ void AEnemyAIController::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("Following Pawn: %s"), *PacmanPawn->GetName());
 
+	SetFocus(PacmanPawn);
 	MoveToActor(PacmanPawn);
 }
 
 void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	MoveToActor(PacmanPawn);
 }

@@ -35,16 +35,16 @@ private:
 	UStaticMeshComponent* Mesh;
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
 	float fSpeed = 200.f;
 
 	void MoveForward(float DeltaTime);
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
-		float fDeltaTimeRotationConstant = 80.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
+	float fDeltaTimeRotationConstant = 80.f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
-		float fRotationSpeed = 10.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
+	float fRotationSpeed = 10.f;
 
 	void TurnRight();
 	void TurnLeft();
