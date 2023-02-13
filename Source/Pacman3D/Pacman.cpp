@@ -27,6 +27,8 @@ void APacman::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	MoveForward(DeltaTime);
+
 }
 
 void APacman::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

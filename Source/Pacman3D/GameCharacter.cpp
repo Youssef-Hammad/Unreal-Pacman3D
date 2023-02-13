@@ -31,7 +31,7 @@ void AGameCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	MoveForward(DeltaTime);
+	//MoveForward(DeltaTime);
 
 	// The turning loops are made for the sake of Linear Interpolation so the characters turn smoothly instead of snapping to the new rotation
 	if (bTurnRight)
