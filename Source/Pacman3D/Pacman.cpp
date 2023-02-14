@@ -5,6 +5,7 @@
 #include <GameFramework/SpringArmComponent.h>
 #include <Camera/CameraComponent.h>
 #include <Kismet/GameplayStatics.h>
+#include <Components/CapsuleComponent.h>
 
 APacman::APacman()
 {
@@ -16,11 +17,26 @@ APacman::APacman()
 	
 	SpringArmComponent->SetupAttachment(RootComponent);
 	CameraComponent->SetupAttachment(SpringArmComponent);
+
+	PacmanState = PACMAN_STATE::Normal;
 }
 
 void APacman::BeginPlay()
 {
 	Super::BeginPlay();
+
+	CapsuleComp->OnComponentBeginOverlap.AddDynamic(this, &APacman::OnOverlapBegin);
+}
+
+void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
+								AActor* OtherActor,
+								UPrimitiveComponent* OtherComp,
+								int32 OtherBodyIndex,
+								bool bFromSweep,
+								const FHitResult& SweepResult)
+{
+	if (OtherActor->GetName() == "Enemy_BP_8")
+		Destroy();
 }
 
 void APacman::Tick(float DeltaTime)

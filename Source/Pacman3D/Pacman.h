@@ -9,6 +9,13 @@
 /**
  * 
  */
+UENUM()
+enum PACMAN_STATE
+{
+	Normal		UMETA(DisplayName = "Normal"),
+	PowerdUp	UMETA(DisplayName = "PoweredUp")
+};
+
 UCLASS()
 class PACMAN3D_API APacman : public AGameCharacter
 {
@@ -16,6 +23,14 @@ class PACMAN3D_API APacman : public AGameCharacter
 
 public:
 	APacman();
+
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
+						AActor* OtherActor,
+						UPrimitiveComponent* OtherComp,
+						int32 OtherBodyIndex,
+						bool bFromSweep,
+						const FHitResult& SweepResult);
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,6 +50,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
 	class USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
+	TEnumAsByte<PACMAN_STATE> PacmanState;
 
 
 };

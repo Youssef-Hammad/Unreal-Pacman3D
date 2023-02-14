@@ -26,7 +26,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-private:
+protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Game Character Variables", meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CapsuleComp;
