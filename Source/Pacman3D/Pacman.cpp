@@ -6,11 +6,14 @@
 #include <Camera/CameraComponent.h>
 #include <Kismet/GameplayStatics.h>
 #include <Components/CapsuleComponent.h>
+#include <string>
+#include "PortalActor.h"
 
 APacman::APacman()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Pacman Camera"));
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Pacman SpringArm"));
@@ -35,7 +38,9 @@ void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
 								bool bFromSweep,
 								const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Pacman Dead"));
+	if (OtherActor->GetName().Find("BP_Portal") != std::string::npos)
+		SetActorLocation(Cast<APortalActor>(OtherActor)->FV_TargetLocation);
+
 }
 
 void APacman::Tick(float DeltaTime)
