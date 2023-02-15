@@ -40,6 +40,7 @@ void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
 {
 	if (OtherActor->GetName().Find("BP_Portal") != std::string::npos)
 		SetActorLocation(Cast<APortalActor>(OtherActor)->FV_TargetLocation);
+	UE_LOG(LogTemp, Warning, TEXT("OtherActor Name: %s"), *OtherActor->GetName());
 
 }
 

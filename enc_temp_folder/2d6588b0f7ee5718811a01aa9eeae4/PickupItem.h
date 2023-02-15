@@ -6,14 +6,6 @@
 #include "GameFramework/Pawn.h"
 #include "PickupItem.generated.h"
 
-UENUM()
-enum FRUIT_TYPE
-{
-	Cherry		UMETA(DisplayName = "Cherry"),
-	Pear		UMETA(DisplayName = "Pear"),
-	Orange		UMETA(DisplayName = "Orange"),
-};
-
 UCLASS()
 class PACMAN3D_API APickupItem : public APawn
 {
@@ -34,9 +26,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, Category = "Pickup Variables")
-		TEnumAsByte<FRUIT_TYPE> FruitType;
-
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup Variables", meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CapsuleComp;
@@ -44,7 +33,7 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup Variables", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* Mesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Pickup Variables", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Pickup Variables", meta = (AllowPrivateAccess = "true"))
 	float fPickupRotationSpeed = 10.f;
 
 };
