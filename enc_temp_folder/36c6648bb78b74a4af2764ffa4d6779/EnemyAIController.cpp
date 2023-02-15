@@ -3,7 +3,6 @@
 
 #include "EnemyAIController.h"
 #include <Kismet/GameplayStatics.h>
-#include "Pacman.h"
 
 void AEnemyAIController::BeginPlay()
 {
@@ -21,6 +20,5 @@ void AEnemyAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(!(Cast<APacman>(PacmanPawn)->bIsDead))
-		MoveToActor(PacmanPawn);
+	MoveToActor(PacmanPawn);
 }

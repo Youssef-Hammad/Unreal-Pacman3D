@@ -16,6 +16,8 @@ AEnemy::AEnemy()
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+
+	FV_StartLocation = GetActorLocation();
 }
 
 // Called every frame

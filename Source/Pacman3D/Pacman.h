@@ -37,10 +37,16 @@ public:
 	int32 Score;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		float fPowerUpDuration;
+	float fPowerUpDuration;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		float fTimeSincePowerup; //Time since the powerup was taken
+	float fTimeSincePowerup; //Time since the powerup was taken
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	int32 Lives;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bIsDead;
 
 protected:
 	// Called when the game starts or when spawned

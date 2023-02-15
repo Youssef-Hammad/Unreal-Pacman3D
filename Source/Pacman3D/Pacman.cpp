@@ -9,6 +9,7 @@
 #include <string>
 #include "PortalActor.h"
 #include "PickupItem.h"
+#include "GameCharacter.h"
 
 APacman::APacman()
 {
@@ -23,6 +24,9 @@ APacman::APacman()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 
 	PacmanState = PACMAN_STATE::Normal;
+
+	Lives = 1;
+	bIsDead = false;
 }
 
 void APacman::BeginPlay()
@@ -31,6 +35,7 @@ void APacman::BeginPlay()
 
 	Score = 0;
 	CapsuleComp->OnComponentBeginOverlap.AddDynamic(this, &APacman::OnOverlapBegin);
+	FV_StartLocation = GetActorLocation();
 }
 
 void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
@@ -40,14 +45,32 @@ void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
 								bool bFromSweep,
 								const FHitResult& SweepResult)
 {
-	if (OtherActor->GetName().Find("Enemy_BP") != std::string::npos && PacmanState != PACMAN_STATE::PoweredUp)
+	if (OtherActor->GetName().Find("Enemy_BP") != std::string::npos)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Pacman Dead"));
+		if (PacmanState != PACMAN_STATE::PoweredUp)
+		{
+			if (Lives > 0)
+			{
+				Lives--;
+				SetActorLocation(FV_StartLocation);
+			}
+			else
+			{
+				bIsDead = true;
+				Mesh->SetHiddenInGame(true);
+			}
+			UE_LOG(LogTemp, Warning, TEXT("Pacman Dead"));
+		}
+		else if (PacmanState == PACMAN_STATE::PoweredUp)
+		{
+			AGameCharacter* EnemyPawn = Cast<AGameCharacter>(OtherActor);
+			EnemyPawn->SetActorLocation(EnemyPawn->FV_StartLocation);
+			if (EnemyPawn == nullptr)
+				UE_LOG(LogTemp, Warning, TEXT("null"));
+			UE_LOG(LogTemp, Warning, TEXT("Enemy Dead"));
+		}
 	}
-	else if (OtherActor->GetName().Find("Enemy_BP") != std::string::npos && PacmanState == PACMAN_STATE::PoweredUp)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Enemy Dead"));
-	}
+	
 	if (OtherActor->GetName().Find("BP_Portal") != std::string::npos)
 		SetActorLocation(Cast<APortalActor>(OtherActor)->FV_TargetLocation);
 	UE_LOG(LogTemp, Warning, TEXT("OtherActor Name: %s"), *OtherActor->GetName());
@@ -59,6 +82,9 @@ void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
 void APacman::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (bIsDead)
+		return;
 
 	MoveForward(DeltaTime);
 
@@ -93,7 +119,7 @@ void APacman::PowerUp(AActor* Pickup)
 		fSpeed *= 2;
 		break;
 	case FRUIT_TYPE::Pear:
-		Score += 20;
+		Score += 25;
 		fPowerUpDuration = Fruit->fDuration;
 		fTimeSincePowerup = GetWorld()->GetTimeSeconds();
 		PacmanState = PACMAN_STATE::SpeedUp;
