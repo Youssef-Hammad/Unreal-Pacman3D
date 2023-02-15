@@ -35,7 +35,10 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, Category = "Pickup Variables")
-		TEnumAsByte<FRUIT_TYPE> FruitType;
+	TEnumAsByte<FRUIT_TYPE> FruitType;
+
+	UPROPERTY(EditAnywhere, Category = "Pickup Variables")
+	float fDuration;
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pickup Variables", meta = (AllowPrivateAccess = "true"))

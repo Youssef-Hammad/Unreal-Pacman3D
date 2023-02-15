@@ -15,14 +15,13 @@ APickupItem::APickupItem()
 
 	RootComponent = CapsuleComp;
 	Mesh->SetupAttachment(CapsuleComp);
-
+	fDuration = 0.f;
 }
 
 // Called when the game starts or when spawned
 void APickupItem::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame

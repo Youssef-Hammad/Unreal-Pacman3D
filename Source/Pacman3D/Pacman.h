@@ -13,7 +13,8 @@ UENUM()
 enum PACMAN_STATE
 {
 	Normal		UMETA(DisplayName = "Normal"),
-	PowerdUp	UMETA(DisplayName = "PoweredUp")
+	SpeedUp		UMETA(DisplayName = "SpeedUp"),
+	PoweredUp	UMETA(DisplayName = "PoweredUp"),
 };
 
 UCLASS()
@@ -31,6 +32,15 @@ public:
 						int32 OtherBodyIndex,
 						bool bFromSweep,
 						const FHitResult& SweepResult);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int32 Score;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		float fPowerUpDuration;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		float fTimeSincePowerup; //Time since the powerup was taken
 
 protected:
 	// Called when the game starts or when spawned
@@ -53,6 +63,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pacman Variables", meta = (AllowPrivateAccess = "true"))
 	TEnumAsByte<PACMAN_STATE> PacmanState;
+
+	void PowerUp(AActor* Pickup);
 
 
 };

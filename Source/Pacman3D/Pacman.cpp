@@ -8,6 +8,7 @@
 #include <Components/CapsuleComponent.h>
 #include <string>
 #include "PortalActor.h"
+#include "PickupItem.h"
 
 APacman::APacman()
 {
@@ -28,6 +29,7 @@ void APacman::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Score = 0;
 	CapsuleComp->OnComponentBeginOverlap.AddDynamic(this, &APacman::OnOverlapBegin);
 }
 
@@ -38,9 +40,19 @@ void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
 								bool bFromSweep,
 								const FHitResult& SweepResult)
 {
+	if (OtherActor->GetName().Find("Enemy_BP") != std::string::npos && PacmanState != PACMAN_STATE::PoweredUp)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Pacman Dead"));
+	}
+	else if (OtherActor->GetName().Find("Enemy_BP") != std::string::npos && PacmanState == PACMAN_STATE::PoweredUp)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Enemy Dead"));
+	}
 	if (OtherActor->GetName().Find("BP_Portal") != std::string::npos)
 		SetActorLocation(Cast<APortalActor>(OtherActor)->FV_TargetLocation);
 	UE_LOG(LogTemp, Warning, TEXT("OtherActor Name: %s"), *OtherActor->GetName());
+	if (OtherActor->GetName().Find("BP_Fruit") != std::string::npos)
+		PowerUp(OtherActor);
 
 }
 
@@ -50,6 +62,14 @@ void APacman::Tick(float DeltaTime)
 
 	MoveForward(DeltaTime);
 
+	if (PacmanState != PACMAN_STATE::Normal)
+	{
+		if (GetWorld()->GetTimeSeconds() - fTimeSincePowerup > fPowerUpDuration)
+		{
+			PacmanState = PACMAN_STATE::Normal;
+			fSpeed /= 2;
+		}
+	}
 }
 
 void APacman::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -58,4 +78,31 @@ void APacman::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAction(TEXT("TurnRight"), IE_Pressed, this, &APacman::TurnRight);
 	PlayerInputComponent->BindAction(TEXT("TurnLeft"), IE_Pressed, this, &APacman::TurnLeft);
+}
+
+void APacman::PowerUp(AActor* Pickup)
+{
+	APickupItem* Fruit = Cast<APickupItem>(Pickup);
+	switch (Fruit->FruitType)
+	{
+	case FRUIT_TYPE::Cherry:
+		Score += 30;
+		fPowerUpDuration = Fruit->fDuration;
+		fTimeSincePowerup = GetWorld()->GetTimeSeconds();
+		PacmanState = PACMAN_STATE::PoweredUp;
+		fSpeed *= 2;
+		break;
+	case FRUIT_TYPE::Pear:
+		Score += 20;
+		fPowerUpDuration = Fruit->fDuration;
+		fTimeSincePowerup = GetWorld()->GetTimeSeconds();
+		PacmanState = PACMAN_STATE::SpeedUp;
+		fSpeed *= 2;
+		break;
+	case FRUIT_TYPE::Orange: // Because orange is my least favourite fruit
+		Score += 10;
+		break;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Score: %d"), Score);
+	Pickup->Destroy();
 }
