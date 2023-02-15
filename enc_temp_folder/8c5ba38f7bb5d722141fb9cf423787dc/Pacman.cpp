@@ -35,7 +35,8 @@ void APacman::OnOverlapBegin(	UPrimitiveComponent* OverlappedComp,
 								bool bFromSweep,
 								const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Overlap Occurred"));
+	if (OtherActor->GetName() == "Enemy_BP_8")
+		Destroy();
 }
 
 void APacman::Tick(float DeltaTime)
